@@ -93,13 +93,30 @@ function getPasswordOptions() {
 
   // password length selection with verification
   var passwordLength = prompt("Enter required password length as a number (Must be between 10 and 64 inclusive)");
-  if (passwordLength > 9 || passwordLength < 65) {
-    console.log("valid password length");
-  } else {
-    passwordLength = alert("Password length must be between 10 and 64 characters inclusive.");
-    console.log("successfully failed and user warned about not meeting password length requirement");
-    return
+
+  switch (true) {
+    case (passwordLength >= 10 && passwordLength <= 64):
+      console.log("valid password length");
+      break;
+    default:
+      alert("Password length must be between 10 and 64 characters inclusive. Press the generate password button again to select password criteria.");
+      console.log("successfully failed and user warned about not meeting password length requirement");
+    case null:
+      console.log("cancelled password length prompt by user");
+      passwordLength = 0;
   }
+
+  //   if (passwordLength > 9 && passwordLength < 65) {
+  //     console.log("valid password length");
+  //   } 
+  //  else if (!passwordLength) {
+  //   console.log("cancelled password length prompt by user")
+  //  }
+  //   else {
+  //     passwordLength = alert("Password length must be between 10 and 64 characters inclusive.");
+  //     console.log("successfully failed and user warned about not meeting password length requirement");
+  //     return
+  //   }
   console.log(`Current passwordLength: ${passwordLength}`);
 
   // character selection confirms with verification
