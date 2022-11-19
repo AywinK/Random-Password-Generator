@@ -92,13 +92,13 @@ var upperCasedCharacters = [
 function getPasswordOptions() {
 
   // password length selection with verification
-  var passwordLength = prompt("Enter required password length as a number");
-  if (passwordLength < 10 || passwordLength > 64) {
+  var passwordLength = prompt("Enter required password length as a number (Must be between 10 and 64 inclusive)");
+  if (passwordLength > 9 || passwordLength < 65) {
+    console.log("valid password length");
+  } else {
     passwordLength = alert("Password length must be between 10 and 64 characters inclusive.");
     console.log("successfully failed and user warned about not meeting password length requirement");
     return
-  } else {
-    console.log("valid password length");
   }
   console.log(`Current passwordLength: ${passwordLength}`);
 
@@ -121,7 +121,7 @@ function getPasswordOptions() {
 
   var requiredChars = promptForRequiredChars();
   console.log(requiredChars);
-  var requiredCharsArray = Object.values(requiredChars); 
+  var requiredCharsArray = Object.values(requiredChars);
 
   // test function for an array element being false
   function NoCharsSelected(currentBoolean) {
@@ -144,10 +144,10 @@ function getPasswordOptions() {
   }
 }
 
+// // testing getPasswordOptions()
+// var passwordReqs = getPasswordOptions();
+// console.log(passwordReqs);
 
-// testing getPasswordOptions()
-var passwordReqs = getPasswordOptions();
-console.log(passwordReqs);
 
 // Function for getting a random element from an array
 function getRandom(arr) {
@@ -159,12 +159,51 @@ function getRandom(arr) {
 }
 
 // testing getRandom(arr)
-var randomElement = getRandom(specialCharacters);
-console.log(`The random element selected for testing getRandom function is: ${randomElement}`);
+var randomElement = getRandom(specialCharacters) + getRandom(numericCharacters) + getRandom(lowerCasedCharacters) + getRandom(upperCasedCharacters);
+console.log(`The random elements selected for testing getRandom function are: ${randomElement}`);
+
+
 // Function to generate password with user input
 function generatePassword() {
+  var passwordReqs = getPasswordOptions();
+  var passwordLength = passwordReqs.passwordLength;
+  var requiredChars = passwordReqs.requiredChars;
+  var charSelectionArray = [];
 
+  if (requiredChars.specialCharProp) {
+    charSelectionArray = charSelectionArray.concat(specialCharacters);
+    console.log(charSelectionArray);
+  }
+  if (requiredChars.numsCharProp) {
+    charSelectionArray = charSelectionArray.concat(numericCharacters);
+    console.log(charSelectionArray);
+  }
+  if (requiredChars.lowercaseCharProp) {
+    charSelectionArray = charSelectionArray.concat(lowerCasedCharacters);
+    console.log(charSelectionArray);
+  }
+  if (requiredChars.uppercaseCharProp) {
+    charSelectionArray = charSelectionArray.concat(upperCasedCharacters);
+    console.log(charSelectionArray);
+  }
+
+  var passwordArray = [];
+  var i = 0;
+  var randomElement = null;
+
+  while (i < passwordLength) {
+    randomElement = getRandom(charSelectionArray);
+    console.log(randomElement);
+    passwordArray.push(randomElement);
+    i++;
+  }
+
+  password = passwordArray.join(``);
+  console.log(passwordArray);
+  return password
 }
+
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
