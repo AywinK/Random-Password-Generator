@@ -96,6 +96,7 @@ function getPasswordOptions() {
   if (passwordLength < 10 || passwordLength > 64) {
     passwordLength = alert("Password length must be between 10 and 64 characters inclusive.");
     console.log("successfully failed and user warned about not meeting password length requirement");
+    return
   } else {
     console.log("valid password length");
   }
@@ -125,7 +126,7 @@ function getPasswordOptions() {
   // test function for an array element being false
   function NoCharsSelected(currentBoolean) {
     var isCharSelectFalse = (currentBoolean == false);
-    console.log(`is char select false: ${isCharSelectFalse}`)
+    console.log(`is current char select test false: ${isCharSelectFalse}`)
     return isCharSelectFalse
   }
 
@@ -139,7 +140,7 @@ function getPasswordOptions() {
 
   return {
     passwordLength: passwordLength,
-    requiredChars: requiredChars,
+    requiredChars: requiredChars
   }
 }
 
@@ -150,11 +151,16 @@ console.log(passwordReqs);
 
 // Function for getting a random element from an array
 function getRandom(arr) {
+  var arrayLength = arr.length;
+  var indexSelector = Math.floor(Math.random() * arrayLength);
+  var randomElement = arr[indexSelector];
+  return randomElement
 
 }
 
 // testing getRandom(arr)
-
+var randomElement = getRandom(specialCharacters);
+console.log(`The random element selected for testing getRandom function is: ${randomElement}`);
 // Function to generate password with user input
 function generatePassword() {
 
