@@ -91,30 +91,49 @@ var upperCasedCharacters = [
 // Function to prompt user for password options
 function getPasswordOptions() {
 
+  // password length selection with verification
   var passwordLength = prompt("Enter required password length as a number");
   if (passwordLength < 10 || passwordLength > 64) {
-    passwordLength = prompt("Password length must be between 10 and 64 characters inclusive.");
-    console.log("successfully failed");
+    passwordLength = alert("Password length must be between 10 and 64 characters inclusive.");
+    console.log("successfully failed and user warned about not meeting password length requirement");
   } else {
     console.log("valid password length");
   }
   console.log(`Current passwordLength: ${passwordLength}`);
 
-  var requireSpecialCharacters = confirm("Would you like special characters?");
-  var requireNumbers = confirm("Would you like numbers?");
-  var requireLowerCasedCharacters = confirm("Would you like lowercase characters");
-  var requireUpperCasedCharacters =  confirm("Would you like uppercase characters?");
+  // character selection confirms with verification
+  // prompt function
+  function promptForRequiredChars() {
+    var requireSpecialCharacters = confirm("Would you like special characters?");
+    var requireNumbers = confirm("Would you like numbers?");
+    var requireLowerCasedCharacters = confirm("Would you like lowercase characters");
+    var requireUpperCasedCharacters = confirm("Would you like uppercase characters?");
 
-  var requiredChars = {
-    requireSpecialCharacters: requireSpecialCharacters,
-    requireNumbers: requireNumbers,
-    requireLowerCasedCharacters: requireLowerCasedCharacters,
-    requireUpperCasedCharacters: requireUpperCasedCharacters,
+    var requiredChars = [
+      requireSpecialCharacters,
+      requireNumbers,
+      requireLowerCasedCharacters,
+      requireUpperCasedCharacters
+    ];
+    return requiredChars
   }
 
-  if (for (value in requiredChars))
+  var requiredChars = promptForRequiredChars();
 
-  console.log(requiredChars);
+  // test function for an array element being false
+  function NoCharsSelected(currentBoolean) {
+    var isCharSelectFalse = (currentBoolean == false);
+    console.log(`is char select false: ${isCharSelectFalse}`)
+    return isCharSelectFalse
+  }
+
+  if (requiredChars.every(NoCharsSelected)) {
+    console.log("no character type selected by user");
+    return alert("You must select atleast one character type");
+  } else {
+    console.log("atleast one character type is selected by user");
+  }
+
 }
 
 // testing getPasswordOptions()
