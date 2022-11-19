@@ -109,16 +109,18 @@ function getPasswordOptions() {
     var requireLowerCasedCharacters = confirm("Would you like lowercase characters");
     var requireUpperCasedCharacters = confirm("Would you like uppercase characters?");
 
-    var requiredChars = [
-      requireSpecialCharacters,
-      requireNumbers,
-      requireLowerCasedCharacters,
-      requireUpperCasedCharacters
-    ];
+    var requiredChars = {
+      specialCharProp: requireSpecialCharacters,
+      numsCharProp: requireNumbers,
+      lowercaseCharProp: requireLowerCasedCharacters,
+      uppercaseCharProp: requireUpperCasedCharacters
+    };
     return requiredChars
   }
 
   var requiredChars = promptForRequiredChars();
+  console.log(requiredChars);
+  var requiredCharsArray = Object.values(requiredChars); 
 
   // test function for an array element being false
   function NoCharsSelected(currentBoolean) {
@@ -127,22 +129,31 @@ function getPasswordOptions() {
     return isCharSelectFalse
   }
 
-  if (requiredChars.every(NoCharsSelected)) {
+  // checks if every array element is false
+  if (requiredCharsArray.every(NoCharsSelected)) {
     console.log("no character type selected by user");
     return alert("You must select atleast one character type");
   } else {
     console.log("atleast one character type is selected by user");
   }
 
+  return {
+    passwordLength: passwordLength,
+    requiredChars: requiredChars,
+  }
 }
 
+
 // testing getPasswordOptions()
-getPasswordOptions()
+var passwordReqs = getPasswordOptions();
+console.log(passwordReqs);
 
 // Function for getting a random element from an array
 function getRandom(arr) {
 
 }
+
+// testing getRandom(arr)
 
 // Function to generate password with user input
 function generatePassword() {
