@@ -91,6 +91,11 @@ var upperCasedCharacters = [
 // Function to prompt user for password options
 function getPasswordOptions() {
 
+  var passOptionsFailed = {
+    passwordLength: 0,
+    requiredCharsOutput: []
+  }
+
   // password length selection with verification
   var passwordLength = prompt("Enter required password length as a number (Must be between 10 and 64 inclusive)");
 
@@ -98,12 +103,14 @@ function getPasswordOptions() {
     case (passwordLength >= 10 && passwordLength <= 64):
       console.log("valid password length");
       break;
-    // case (passwordLength === null):
-    //   console.log("cancelled password length prompt by user");
+    case (passwordLength === null):
+      console.log("cancelled password length prompt by user");
+      alert("Press Generate Password to choose requirements again.")
+      return passOptionsFailed
     default:
-      alert("Password length must be between 10 and 64 characters inclusive. Press the generate password button again to select password criteria.");
-      console.log("successfully failed and user warned about not meeting password length requirement");
-      passwordLength = 0;
+      alert("Password length must be between 10 and 64 characters long. You must enter as a number. Press the generate password button again to select password criteria.");
+      console.log("user did not not meet password length requirement");
+      return passOptionsFailed
   }
 
   //   if (passwordLength > 9 && passwordLength < 65) {
@@ -134,6 +141,7 @@ function getPasswordOptions() {
     uppercaseCharProp: confirm("Would you like to include uppercase letters?")
   };
 
+  var requiredCharsOutput = [];
 
   for (var prop in requiredChars) {
     console.log(typeof prop);
@@ -141,29 +149,28 @@ function getPasswordOptions() {
     if (requiredChars[prop] === true) {
       switch (prop) {
         case "specialCharProp":
-          requiredChars[prop] = specialCharacters;
+          requiredCharsOutput.splice(0, 0, ...specialCharacters);
           break;
         case "numsCharProp":
-          requiredChars[prop] = numericCharacters;
+          requiredCharsOutput.splice(0, 0, ...numericCharacters);
           break;
         case "lowercaseCharProp":
-          requiredChars[prop] = lowerCasedCharacters;
+          requiredCharsOutput.splice(0, 0, ...lowerCasedCharacters);
           break;
         case "uppercaseCharProp":
-          requiredChars[prop] = upperCasedCharacters;
+          requiredCharsOutput.splice(0, 0, ...upperCasedCharacters);
           break;
-          default:
-            console.log(`Unknown property in requiredChars with value "true" called: ${prop}. Property is ignored`)
+        default:
+          console.log(`Unknown property in requiredChars with value "true" called: ${prop}. Property is ignored`)
       }
     } else {
       console.log(`${prop} is false`);
-      requiredChars[prop] = [];
     }
     console.log(`finished iterating over property (from requiredChars Object): ${prop}`);
-    console.log(requiredChars);
   }
-  
-  requiredCharsOutput = [...(requiredChars.specialCharProp), ...(requiredChars.numsCharProp), ...(requiredChars.lowercaseCharProp), ...(requiredChars.uppercaseCharProp)];
+
+  console.log(requiredCharsOutput);
+  // var requiredCharsOutput = [...(requiredChars.specialCharProp), ...(requiredChars.numsCharProp), ...(requiredChars.lowercaseCharProp), ...(requiredChars.uppercaseCharProp)];
   console.log(`array size of requiredCharsOutput: ${requiredCharsOutput.length}`);
   //   return requiredChars
   // }
@@ -187,12 +194,18 @@ function getPasswordOptions() {
   //   console.log("atleast one character type is selected by user");
   // }
 
-  return {
-    passwordLength: passwordLength,
-    requiredChars: requiredChars
+  if (requiredCharsOutput.length === 0) {
+    alert("You must select atleast one character type. Press generate password again to continue.");
+    console.log("no character type is selected by user");
+    return passOptionsFailed
+  } else {
+    console.log("atleast one character type is selected by user");
+    return {
+      passwordLength: passwordLength,
+      requiredCharsOutput: requiredCharsOutput
+    }
   }
 }
-
 // // testing getPasswordOptions()
 // var passwordReqs = getPasswordOptions();
 // console.log(passwordReqs);
@@ -216,39 +229,21 @@ function getRandom(arr) {
 function generatePassword() {
   var passwordReqs = getPasswordOptions();
   var passwordLength = passwordReqs.passwordLength;
-  var requiredChars = passwordReqs.requiredChars;
-  var charSelectionArray = [];
-
-  if (requiredChars.specialCharProp) {
-    charSelectionArray = charSelectionArray.concat(specialCharacters);
-    console.log(charSelectionArray);
-  }
-  if (requiredChars.numsCharProp) {
-    charSelectionArray = charSelectionArray.concat(numericCharacters);
-    console.log(charSelectionArray);
-  }
-  if (requiredChars.lowercaseCharProp) {
-    charSelectionArray = charSelectionArray.concat(lowerCasedCharacters);
-    console.log(charSelectionArray);
-  }
-  if (requiredChars.uppercaseCharProp) {
-    charSelectionArray = charSelectionArray.concat(upperCasedCharacters);
-    console.log(charSelectionArray);
-  }
-
+  var requiredCharsOutput = passwordReqs.requiredCharsOutput;
   var passwordArray = [];
+
   var i = 0;
-  var randomElement = null;
+  var randomElement = [];
 
   while (i < passwordLength) {
-    randomElement = getRandom(charSelectionArray);
+    randomElement = getRandom(requiredCharsOutput);
     console.log(randomElement);
     passwordArray.push(randomElement);
     i++;
   }
 
   password = passwordArray.join(``);
-  console.log(passwordArray);
+  console.log(password);
   return password
 }
 
