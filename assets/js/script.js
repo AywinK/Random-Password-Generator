@@ -90,21 +90,24 @@ var upperCasedCharacters = [
 
 // Function to prompt user for password options
 function getPasswordOptions() {
-
+  // object to return if password options not within criteria
   var passOptionsFailed = {
     passwordLength: 0,
     requiredCharsOutput: []
   }
-
-  // password length selection with verification
+  // password length selection with switch case variables
   var passwordLength = prompt("Enter required password length as a number (Must be between 10 and 64 inclusive)");
   var passwordLengthAccepted = (passwordLength >= 10 && passwordLength <= 64);
   var userCancelledPrompt = (passwordLength === null);
-
+  // switch case for password length verification
   switch (true) {
     case (passwordLengthAccepted):
       passwordLength = Math.floor(Number(passwordLength));
-      console.log("valid password length");
+      console.log(`
+      valid password length
+      Current passwordLength: ${passwordLength}
+      data type: ${typeof passwordLength}
+      `);
       break;
     case (userCancelledPrompt):
       console.log("cancelled password length prompt by user");
@@ -115,115 +118,46 @@ function getPasswordOptions() {
       console.log("user did not not meet password length requirement");
       return passOptionsFailed
   }
-
-
-  console.log(`
-  Current passwordLength: ${passwordLength}
-  data type: ${typeof passwordLength}
-  `);
-
+  // object containing properties of character set within an array value with array[0] being name and array[1] being character set 
   var charsOptions = {
     specialCharProp: ["special characters", specialCharacters],
     numsCharProp: ["numbers", numericCharacters],
     lowercaseCharProp: ["lowercase letters", lowerCasedCharacters],
     uppercaseCharProp: ["uppercase letters", upperCasedCharacters]
   }
-
+  // object returned when user chooses valid criteria for random password generation
   var charsCriteria = {
     passwordLength: passwordLength,
     requiredCharsOutput: []
   }
-
-  var noCharsSelectedCount = 0;
-  
+  // asks user for character type requirements and updates charsCriteria
   for (prop in charsOptions) {
-    var charsetIsRequired = confirm(`Would you like to include ${charsOptions[prop][0]}`);
+    var charsetIsRequired = confirm(`Would you like to include ${charsOptions[prop][0]}?`);
     if (charsetIsRequired) {
       charsCriteria.requiredCharsOutput.splice(0, 0, ...charsOptions[prop][1]);
-    } else {
-      noCharsSelectedCount++;
     }
   }
-  console.log(charsCriteria);
-  console.log(noCharsSelected);
-
-var noCharsSelected = (noCharsSelectedCount === 4);
-console.log(noCharsSelected)
-
-if (noCharsSelected) {
-  alert("You must select atleast one character type. Press generate password again to continue.");
+  // checks atleast one character type is selected
+  var noCharsSelected = (charsCriteria.requiredCharsOutput.length === 0);
+  // returns appropriate object
+  if (noCharsSelected) {
+    alert("You must select atleast one character type. Press generate password again to continue.");
     console.log("no character type is selected by user");
     return passOptionsFailed
-} else {
-  console.log("atleast one character type is selected by user");
+  } else {
+    console.log("atleast one character type is selected by user");
+    console.log(`object returned for password generation: ${charsCriteria}`);
     return charsCriteria
+  }
 }
 
-  // var requiredChars = {
-  //   specialCharProp: confirm("Would you like to include special characters?"),
-  //   numsCharProp: confirm("Would you like to include numbers?"),
-  //   lowercaseCharProp: confirm("Would you like to include lowercase letters?"),
-  //   uppercaseCharProp: confirm("Would you like to include uppercase letters?")
-  // };
-
-  // var requiredCharsOutput = [];
-
-  // for (var prop in requiredChars) {
-  //   console.log(typeof prop);
-  //   console.log(prop);
-  //   if (requiredChars[prop] === true) {
-  //     switch (prop) {
-  //       case "specialCharProp":
-  //         requiredCharsOutput.splice(0, 0, ...specialCharacters);
-  //         break;
-  //       case "numsCharProp":
-  //         requiredCharsOutput.splice(0, 0, ...numericCharacters);
-  //         break;
-  //       case "lowercaseCharProp":
-  //         requiredCharsOutput.splice(0, 0, ...lowerCasedCharacters);
-  //         break;
-  //       case "uppercaseCharProp":
-  //         requiredCharsOutput.splice(0, 0, ...upperCasedCharacters);
-  //         break;
-  //       default:
-  //         console.log(`Unknown property in requiredChars with value "true" called: ${prop}. Property is ignored`)
-  //     }
-  //   } else {
-  //     console.log(`${prop} is false`);
-  //   }
-  //   console.log(`finished iterating over property (from requiredChars Object): ${prop}`);
-  // }
-
-  // console.log(requiredCharsOutput);
-  // console.log(`array size of requiredCharsOutput: ${requiredCharsOutput.length}`);
-
-
-  // if (requiredCharsOutput.length === 0) {
-  //   alert("You must select atleast one character type. Press generate password again to continue.");
-  //   console.log("no character type is selected by user");
-  //   return passOptionsFailed
-  // } else {
-  //   console.log("atleast one character type is selected by user");
-  //   return {
-  //     passwordLength: passwordLength,
-  //     requiredCharsOutput: requiredCharsOutput
-  //   }
-  // }
-}
-
-
-
-// Function for getting a random element from an array
+// Function for getting a random element from an array assumed safe from errors due to getPasswordOptions() function
 function getRandom(arr) {
   var arrayLength = arr.length;
   var indexSelector = Math.floor(Math.random() * arrayLength);
   var randomElement = arr[indexSelector];
   return randomElement
-
 }
-
-
-
 
 // Function to generate password with user input
 function generatePassword() {
@@ -231,7 +165,6 @@ function generatePassword() {
   var passwordLength = passwordReqs.passwordLength;
   var requiredCharsOutput = passwordReqs.requiredCharsOutput;
   var passwordArray = [];
-
   var i = 0;
   var randomElement = [];
 
@@ -241,13 +174,11 @@ function generatePassword() {
     passwordArray.push(randomElement);
     i++;
   }
-
+// converts password array to string and returns password
   password = passwordArray.join(``);
   console.log(password);
   return password
 }
-
-
 
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
