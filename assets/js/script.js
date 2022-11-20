@@ -98,7 +98,6 @@ function getPasswordOptions() {
 
   // password length selection with verification
   var passwordLength = prompt("Enter required password length as a number (Must be between 10 and 64 inclusive)");
-
   var passwordLengthAccepted = (passwordLength >= 10 && passwordLength <= 64);
   var userCancelledPrompt = (passwordLength === null);
 
@@ -120,60 +119,96 @@ function getPasswordOptions() {
 
   console.log(`
   Current passwordLength: ${passwordLength}
-  data type: ${typeof passwordLength}`);
+  data type: ${typeof passwordLength}
+  `);
 
-
-
-  var requiredChars = {
-    specialCharProp: confirm("Would you like to include special characters?"),
-    numsCharProp: confirm("Would you like to include numbers?"),
-    lowercaseCharProp: confirm("Would you like to include lowercase letters?"),
-    uppercaseCharProp: confirm("Would you like to include uppercase letters?")
-  };
-
-  var requiredCharsOutput = [];
-
-  for (var prop in requiredChars) {
-    console.log(typeof prop);
-    console.log(prop);
-    if (requiredChars[prop] === true) {
-      switch (prop) {
-        case "specialCharProp":
-          requiredCharsOutput.splice(0, 0, ...specialCharacters);
-          break;
-        case "numsCharProp":
-          requiredCharsOutput.splice(0, 0, ...numericCharacters);
-          break;
-        case "lowercaseCharProp":
-          requiredCharsOutput.splice(0, 0, ...lowerCasedCharacters);
-          break;
-        case "uppercaseCharProp":
-          requiredCharsOutput.splice(0, 0, ...upperCasedCharacters);
-          break;
-        default:
-          console.log(`Unknown property in requiredChars with value "true" called: ${prop}. Property is ignored`)
-      }
-    } else {
-      console.log(`${prop} is false`);
-    }
-    console.log(`finished iterating over property (from requiredChars Object): ${prop}`);
+  var charsOptions = {
+    specialCharProp: ["special characters", specialCharacters],
+    numsCharProp: ["numbers", numericCharacters],
+    lowercaseCharProp: ["lowercase letters", lowerCasedCharacters],
+    uppercaseCharProp: ["uppercase letters", upperCasedCharacters]
   }
 
-  console.log(requiredCharsOutput);
-  console.log(`array size of requiredCharsOutput: ${requiredCharsOutput.length}`);
+  var charsCriteria = {
+    passwordLength: passwordLength,
+    requiredCharsOutput: []
+  }
 
+  var noCharsSelectedCount = 0;
+  
+  for (prop in charsOptions) {
+    var charsetIsRequired = confirm(`Would you like to include ${charsOptions[prop][0]}`);
+    if (charsetIsRequired) {
+      charsCriteria.requiredCharsOutput.splice(0, 0, ...charsOptions[prop][1]);
+    } else {
+      noCharsSelectedCount++;
+    }
+  }
+  console.log(charsCriteria);
+  console.log(noCharsSelected);
 
-  if (requiredCharsOutput.length === 0) {
-    alert("You must select atleast one character type. Press generate password again to continue.");
+var noCharsSelected = (noCharsSelectedCount === 4);
+console.log(noCharsSelected)
+
+if (noCharsSelected) {
+  alert("You must select atleast one character type. Press generate password again to continue.");
     console.log("no character type is selected by user");
     return passOptionsFailed
-  } else {
-    console.log("atleast one character type is selected by user");
-    return {
-      passwordLength: passwordLength,
-      requiredCharsOutput: requiredCharsOutput
-    }
-  }
+} else {
+  console.log("atleast one character type is selected by user");
+    return charsCriteria
+}
+
+  // var requiredChars = {
+  //   specialCharProp: confirm("Would you like to include special characters?"),
+  //   numsCharProp: confirm("Would you like to include numbers?"),
+  //   lowercaseCharProp: confirm("Would you like to include lowercase letters?"),
+  //   uppercaseCharProp: confirm("Would you like to include uppercase letters?")
+  // };
+
+  // var requiredCharsOutput = [];
+
+  // for (var prop in requiredChars) {
+  //   console.log(typeof prop);
+  //   console.log(prop);
+  //   if (requiredChars[prop] === true) {
+  //     switch (prop) {
+  //       case "specialCharProp":
+  //         requiredCharsOutput.splice(0, 0, ...specialCharacters);
+  //         break;
+  //       case "numsCharProp":
+  //         requiredCharsOutput.splice(0, 0, ...numericCharacters);
+  //         break;
+  //       case "lowercaseCharProp":
+  //         requiredCharsOutput.splice(0, 0, ...lowerCasedCharacters);
+  //         break;
+  //       case "uppercaseCharProp":
+  //         requiredCharsOutput.splice(0, 0, ...upperCasedCharacters);
+  //         break;
+  //       default:
+  //         console.log(`Unknown property in requiredChars with value "true" called: ${prop}. Property is ignored`)
+  //     }
+  //   } else {
+  //     console.log(`${prop} is false`);
+  //   }
+  //   console.log(`finished iterating over property (from requiredChars Object): ${prop}`);
+  // }
+
+  // console.log(requiredCharsOutput);
+  // console.log(`array size of requiredCharsOutput: ${requiredCharsOutput.length}`);
+
+
+  // if (requiredCharsOutput.length === 0) {
+  //   alert("You must select atleast one character type. Press generate password again to continue.");
+  //   console.log("no character type is selected by user");
+  //   return passOptionsFailed
+  // } else {
+  //   console.log("atleast one character type is selected by user");
+  //   return {
+  //     passwordLength: passwordLength,
+  //     requiredCharsOutput: requiredCharsOutput
+  //   }
+  // }
 }
 
 
