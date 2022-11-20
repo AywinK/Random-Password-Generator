@@ -113,26 +113,10 @@ function getPasswordOptions() {
       return passOptionsFailed
   }
 
-  //   if (passwordLength > 9 && passwordLength < 65) {
-  //     console.log("valid password length");
-  //   } 
-  //  else if (!passwordLength) {
-  //   console.log("cancelled password length prompt by user")
-  //  }
-  //   else {
-  //     passwordLength = alert("Password length must be between 10 and 64 characters inclusive.");
-  //     console.log("successfully failed and user warned about not meeting password length requirement");
-  //     return
-  //   }
+
   console.log(`Current passwordLength: ${passwordLength}`);
 
-  // character selection confirms with verification
-  // prompt function
-  // function promptForRequiredChars() {
-  // var requireSpecialCharacters = confirm("Would you like to include special characters?");
-  // var requireNumbers = confirm("Would you like to include numbers?");
-  // var requireLowerCasedCharacters = confirm("Would you like to include lowercase letters?");
-  // var requireUpperCasedCharacters = confirm("Would you like to include uppercase letters?");
+
 
   var requiredChars = {
     specialCharProp: confirm("Would you like to include special characters?"),
@@ -170,29 +154,8 @@ function getPasswordOptions() {
   }
 
   console.log(requiredCharsOutput);
-  // var requiredCharsOutput = [...(requiredChars.specialCharProp), ...(requiredChars.numsCharProp), ...(requiredChars.lowercaseCharProp), ...(requiredChars.uppercaseCharProp)];
   console.log(`array size of requiredCharsOutput: ${requiredCharsOutput.length}`);
-  //   return requiredChars
-  // }
 
-  // var requiredChars = promptForRequiredChars();
-  // console.log(requiredChars);
-  // var requiredCharsArray = Object.values(requiredChars);
-
-  // // test function for an array element being false
-  // function NoCharsSelected(currentBoolean) {
-  //   var isCharSelectFalse = (currentBoolean == false);
-  //   console.log(`is current char select test false: ${isCharSelectFalse}`)
-  //   return isCharSelectFalse
-  // }
-
-  // // checks if every array element is false
-  // if (requiredCharsArray.every(NoCharsSelected)) {
-  //   console.log("no character type selected by user");
-  //   return alert("You must select atleast one character type");
-  // } else {
-  //   console.log("atleast one character type is selected by user");
-  // }
 
   if (requiredCharsOutput.length === 0) {
     alert("You must select atleast one character type. Press generate password again to continue.");
@@ -206,9 +169,7 @@ function getPasswordOptions() {
     }
   }
 }
-// // testing getPasswordOptions()
-// var passwordReqs = getPasswordOptions();
-// console.log(passwordReqs);
+
 
 
 // Function for getting a random element from an array
@@ -220,9 +181,7 @@ function getRandom(arr) {
 
 }
 
-// // testing getRandom(arr)
-// var randomElement = getRandom(specialCharacters) + getRandom(numericCharacters) + getRandom(lowerCasedCharacters) + getRandom(upperCasedCharacters);
-// console.log(`The random elements selected for testing getRandom function are: ${randomElement}`);
+
 
 
 // Function to generate password with user input
