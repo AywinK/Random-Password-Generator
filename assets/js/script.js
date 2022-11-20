@@ -99,11 +99,15 @@ function getPasswordOptions() {
   // password length selection with verification
   var passwordLength = prompt("Enter required password length as a number (Must be between 10 and 64 inclusive)");
 
+  var passwordLengthAccepted = (passwordLength >= 10 && passwordLength <= 64);
+  var userCancelledPrompt = (passwordLength === null);
+
   switch (true) {
-    case (passwordLength >= 10 && passwordLength <= 64):
+    case (passwordLengthAccepted):
+      passwordLength = Math.floor(Number(passwordLength));
       console.log("valid password length");
       break;
-    case (passwordLength === null):
+    case (userCancelledPrompt):
       console.log("cancelled password length prompt by user");
       alert("Press Generate Password to choose requirements again.")
       return passOptionsFailed
@@ -114,7 +118,9 @@ function getPasswordOptions() {
   }
 
 
-  console.log(`Current passwordLength: ${passwordLength}`);
+  console.log(`
+  Current passwordLength: ${passwordLength}
+  data type: ${typeof passwordLength}`);
 
 
 
