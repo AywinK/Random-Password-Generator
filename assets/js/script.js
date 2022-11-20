@@ -90,15 +90,18 @@ var upperCasedCharacters = [
 
 // Function to prompt user for password options
 function getPasswordOptions() {
+
   // object to return if password options not within criteria
   var passOptionsFailed = {
     passwordLength: 0,
     requiredCharsOutput: []
   }
+
   // password length selection with switch case variables
   var passwordLength = prompt("Enter required password length as a number (Must be between 10 and 64 inclusive)");
   var passwordLengthAccepted = (passwordLength >= 10 && passwordLength <= 64);
   var userCancelledPrompt = (passwordLength === null);
+
   // switch case for password length verification
   switch (true) {
     case (passwordLengthAccepted):
@@ -118,6 +121,7 @@ function getPasswordOptions() {
       console.log("user did not not meet password length requirement");
       return passOptionsFailed
   }
+
   // object containing properties of character set within an array value with array[0] being name and array[1] being character set 
   var charsOptions = {
     specialCharProp: ["special characters", specialCharacters],
@@ -125,11 +129,13 @@ function getPasswordOptions() {
     lowercaseCharProp: ["lowercase letters", lowerCasedCharacters],
     uppercaseCharProp: ["uppercase letters", upperCasedCharacters]
   }
+
   // object returned when user chooses valid criteria for random password generation
   var charsCriteria = {
     passwordLength: passwordLength,
     requiredCharsOutput: []
   }
+
   // asks user for character type requirements and updates charsCriteria
   for (prop in charsOptions) {
     var charsetIsRequired = confirm(`Would you like to include ${charsOptions[prop][0]}?`);
@@ -137,8 +143,10 @@ function getPasswordOptions() {
       charsCriteria.requiredCharsOutput.splice(0, 0, ...charsOptions[prop][1]);
     }
   }
+
   // checks atleast one character type is selected
   var noCharsSelected = (charsCriteria.requiredCharsOutput.length === 0);
+
   // returns appropriate object
   if (noCharsSelected) {
     alert("You must select atleast one character type. Press generate password again to continue.");
@@ -146,7 +154,6 @@ function getPasswordOptions() {
     return passOptionsFailed
   } else {
     console.log("atleast one character type is selected by user");
-    console.log(`object returned for password generation: ${charsCriteria}`);
     return charsCriteria
   }
 }
@@ -161,6 +168,8 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
+
+  // gets password options, breaks down returned object, initialises variables for while loop
   var passwordReqs = getPasswordOptions();
   var passwordLength = passwordReqs.passwordLength;
   var requiredCharsOutput = passwordReqs.requiredCharsOutput;
@@ -168,15 +177,16 @@ function generatePassword() {
   var i = 0;
   var randomElement = [];
 
+  // creates array of password characters using characters chosen and getrandom function
   while (i < passwordLength) {
     randomElement = getRandom(requiredCharsOutput);
-    console.log(randomElement);
+    console.log(`loop count: ${i + 1} and i value is: ${i}`);
     passwordArray.push(randomElement);
     i++;
   }
-// converts password array to string and returns password
+  // converts password array to string and returns password
   password = passwordArray.join(``);
-  console.log(password);
+  console.log(`password is ${password} and password length is ${passwordArray.length}`);
   return password
 }
 
