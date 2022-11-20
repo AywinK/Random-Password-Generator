@@ -98,11 +98,11 @@ function getPasswordOptions() {
     case (passwordLength >= 10 && passwordLength <= 64):
       console.log("valid password length");
       break;
+    // case (passwordLength === null):
+    //   console.log("cancelled password length prompt by user");
     default:
       alert("Password length must be between 10 and 64 characters inclusive. Press the generate password button again to select password criteria.");
       console.log("successfully failed and user warned about not meeting password length requirement");
-    case null:
-      console.log("cancelled password length prompt by user");
       passwordLength = 0;
   }
 
@@ -121,39 +121,71 @@ function getPasswordOptions() {
 
   // character selection confirms with verification
   // prompt function
-  function promptForRequiredChars() {
-    var requireSpecialCharacters = confirm("Would you like special characters?");
-    var requireNumbers = confirm("Would you like numbers?");
-    var requireLowerCasedCharacters = confirm("Would you like lowercase characters");
-    var requireUpperCasedCharacters = confirm("Would you like uppercase characters?");
+  // function promptForRequiredChars() {
+  // var requireSpecialCharacters = confirm("Would you like to include special characters?");
+  // var requireNumbers = confirm("Would you like to include numbers?");
+  // var requireLowerCasedCharacters = confirm("Would you like to include lowercase letters?");
+  // var requireUpperCasedCharacters = confirm("Would you like to include uppercase letters?");
 
-    var requiredChars = {
-      specialCharProp: requireSpecialCharacters,
-      numsCharProp: requireNumbers,
-      lowercaseCharProp: requireLowerCasedCharacters,
-      uppercaseCharProp: requireUpperCasedCharacters
-    };
-    return requiredChars
+  var requiredChars = {
+    specialCharProp: confirm("Would you like to include special characters?"),
+    numsCharProp: confirm("Would you like to include numbers?"),
+    lowercaseCharProp: confirm("Would you like to include lowercase letters?"),
+    uppercaseCharProp: confirm("Would you like to include uppercase letters?")
+  };
+
+
+  for (var prop in requiredChars) {
+    console.log(typeof prop);
+    console.log(prop);
+    if (requiredChars[prop] === true) {
+      switch (prop) {
+        case "specialCharProp":
+          requiredChars[prop] = specialCharacters;
+          break;
+        case "numsCharProp":
+          requiredChars[prop] = numericCharacters;
+          break;
+        case "lowercaseCharProp":
+          requiredChars[prop] = lowerCasedCharacters;
+          break;
+        case "uppercaseCharProp":
+          requiredChars[prop] = upperCasedCharacters;
+          break;
+          default:
+            console.log(`Unknown property in requiredChars with value "true" called: ${prop}. Property is ignored`)
+      }
+    } else {
+      console.log(`${prop} is false`);
+      requiredChars[prop] = [];
+    }
+    console.log(`finished iterating over property (from requiredChars Object): ${prop}`);
+    console.log(requiredChars);
   }
+  
+  requiredCharsOutput = [...(requiredChars.specialCharProp), ...(requiredChars.numsCharProp), ...(requiredChars.lowercaseCharProp), ...(requiredChars.uppercaseCharProp)];
+  console.log(`array size of requiredCharsOutput: ${requiredCharsOutput.length}`);
+  //   return requiredChars
+  // }
 
-  var requiredChars = promptForRequiredChars();
-  console.log(requiredChars);
-  var requiredCharsArray = Object.values(requiredChars);
+  // var requiredChars = promptForRequiredChars();
+  // console.log(requiredChars);
+  // var requiredCharsArray = Object.values(requiredChars);
 
-  // test function for an array element being false
-  function NoCharsSelected(currentBoolean) {
-    var isCharSelectFalse = (currentBoolean == false);
-    console.log(`is current char select test false: ${isCharSelectFalse}`)
-    return isCharSelectFalse
-  }
+  // // test function for an array element being false
+  // function NoCharsSelected(currentBoolean) {
+  //   var isCharSelectFalse = (currentBoolean == false);
+  //   console.log(`is current char select test false: ${isCharSelectFalse}`)
+  //   return isCharSelectFalse
+  // }
 
-  // checks if every array element is false
-  if (requiredCharsArray.every(NoCharsSelected)) {
-    console.log("no character type selected by user");
-    return alert("You must select atleast one character type");
-  } else {
-    console.log("atleast one character type is selected by user");
-  }
+  // // checks if every array element is false
+  // if (requiredCharsArray.every(NoCharsSelected)) {
+  //   console.log("no character type selected by user");
+  //   return alert("You must select atleast one character type");
+  // } else {
+  //   console.log("atleast one character type is selected by user");
+  // }
 
   return {
     passwordLength: passwordLength,
@@ -175,9 +207,9 @@ function getRandom(arr) {
 
 }
 
-// testing getRandom(arr)
-var randomElement = getRandom(specialCharacters) + getRandom(numericCharacters) + getRandom(lowerCasedCharacters) + getRandom(upperCasedCharacters);
-console.log(`The random elements selected for testing getRandom function are: ${randomElement}`);
+// // testing getRandom(arr)
+// var randomElement = getRandom(specialCharacters) + getRandom(numericCharacters) + getRandom(lowerCasedCharacters) + getRandom(upperCasedCharacters);
+// console.log(`The random elements selected for testing getRandom function are: ${randomElement}`);
 
 
 // Function to generate password with user input
