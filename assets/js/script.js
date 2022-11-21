@@ -142,15 +142,16 @@ function getPasswordOptions() {
     var noCharsSelected = (charsCriteria.requiredCharsOutput.length === 0);
     var isLastIteration = (prop === Object.keys(charsOptions).pop());
     switch (true) {
-      case (!charsetIsRequired && !isLastIteration):
-      break;
+      case (charsetIsRequired):
+        charsCriteria.requiredCharsOutput.splice(0, 0, ...charsOptions[prop][1]);
+        console.log(`user has selected ${charsOptions[prop][0]}`);
+        break;
       case (!charsetIsRequired && isLastIteration && noCharsSelected):
         alert("You must select atleast one character type. Press generate password again to continue.");
         console.log("no character type is selected by user");
         return passOptionsFailed
       default:
-      charsCriteria.requiredCharsOutput.splice(0, 0, ...charsOptions[prop][1]);
-      console.log(`user has selected ${charsOptions[prop][0]}`)
+        console.log(`${charsOptions[prop][0]} not selected`)
     }
   }
 
@@ -184,7 +185,7 @@ function generatePassword() {
     passwordArray.push(randomElement);
     i++;
   }
-  
+
   // converts password array to string and returns password
   password = passwordArray.join(``);
   console.log(`password is ${password} and password length is ${passwordArray.length}`);
