@@ -136,26 +136,26 @@ function getPasswordOptions() {
     requiredCharsOutput: []
   }
 
-  // asks user for character type requirements and updates charsCriteria
+  // asks user for character type requirements and updates charsCriteria, returns fail criteria if no chars selected
   for (prop in charsOptions) {
     var charsetIsRequired = confirm(`Would you like to include ${charsOptions[prop][0]}?`);
-    if (charsetIsRequired) {
+    var noCharsSelected = (charsCriteria.requiredCharsOutput.length === 0);
+    var isLastIteration = (prop === Object.keys(charsOptions).pop());
+    switch (true) {
+      case (!charsetIsRequired && !isLastIteration):
+      break;
+      case (!charsetIsRequired && isLastIteration && noCharsSelected):
+        alert("You must select atleast one character type. Press generate password again to continue.");
+        console.log("no character type is selected by user");
+        return passOptionsFailed
+      default:
       charsCriteria.requiredCharsOutput.splice(0, 0, ...charsOptions[prop][1]);
+      console.log(`user has selected ${charsOptions[prop][0]}`)
     }
   }
 
-  // checks atleast one character type is selected
-  var noCharsSelected = (charsCriteria.requiredCharsOutput.length === 0);
-
   // returns appropriate object
-  if (noCharsSelected) {
-    alert("You must select atleast one character type. Press generate password again to continue.");
-    console.log("no character type is selected by user");
-    return passOptionsFailed
-  } else {
-    console.log("atleast one character type is selected by user");
-    return charsCriteria
-  }
+  return charsCriteria
 }
 
 // Function for getting a random element from an array assumed safe from errors due to getPasswordOptions() function
@@ -180,10 +180,11 @@ function generatePassword() {
   // creates array of password characters using characters chosen and getrandom function
   while (i < passwordLength) {
     randomElement = getRandom(requiredCharsOutput);
-    console.log(`loop count: ${i + 1} and i value is: ${i}`);
+    console.log(`random element selection while loop; this should be logged ${passwordLength} times!`);
     passwordArray.push(randomElement);
     i++;
   }
+  
   // converts password array to string and returns password
   password = passwordArray.join(``);
   console.log(`password is ${password} and password length is ${passwordArray.length}`);
