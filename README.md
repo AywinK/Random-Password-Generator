@@ -12,8 +12,8 @@ unfinished yet
 - GitHub Docs - https://docs.github.com/en
 - MDN Javascript Documentation - https://developer.mozilla.org/en-US/
 - Stack Overflow threads - https://stackoverflow.com/
-Javascript Info documentation - https://javascript.info/
-FreeCodeCamp resources - https://www.freecodecamp.org/news
+- Javascript Info documentation - https://javascript.info/
+- FreeCodeCamp resources - https://www.freecodecamp.org/news
 
 ## License
 MIT License
