@@ -155,7 +155,7 @@ function getPasswordOptions() {
     }
   }
 
-  // returns appropriate object
+  // returns object with user's password requirements data
   return charsCriteria
 }
 
