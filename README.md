@@ -20,6 +20,7 @@ The codebase includes comments and appropriately named expressions as variables 
  ![Code Example screenshot](/assets/images/code_screenshot.png)
  <br>
  The script file also logs user actions to the developer console, as shown below, to aid code readability and testing changes.
+ <br>
   ![Web Application screenshot](/assets/images/devConsole_screenshot.png)
 ## Credits
 - W3Schools - https://www.w3schools.com/js/default.asp
