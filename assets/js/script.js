@@ -137,7 +137,7 @@ function getPasswordOptions() {
   }
 
   // asks user for character type requirements and updates charsCriteria, returns fail criteria if no chars selected
-  for (prop in charsOptions) {
+  for (var prop in charsOptions) {
     var charsetIsRequired = confirm(`Would you like to include ${charsOptions[prop][0]}?`);
     var noCharsSelected = (charsCriteria.requiredCharsOutput.length === 0);
     var isLastIteration = (prop === Object.keys(charsOptions).pop());
@@ -187,7 +187,7 @@ function generatePassword() {
   }
 
   // converts password array to string and returns password
-  password = passwordArray.join(``);
+  var password = passwordArray.join(``);
   console.log(`password is ${password} and password length is ${passwordArray.length}`);
   return password
 }
